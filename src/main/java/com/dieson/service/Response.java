@@ -16,7 +16,7 @@ public interface Response {
 	public String getType(String responseStr);
 
 	/**
-	 * 解析报文
+	 * 解析报文			
 	 * @param classStr	类名
 	 * @param responseStr	报文
 	 * @return
