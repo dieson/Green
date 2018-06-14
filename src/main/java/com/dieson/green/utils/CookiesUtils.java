@@ -1,4 +1,4 @@
-package com.dieson.utils;
+package com.dieson.green.utils;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;

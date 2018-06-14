@@ -14,7 +14,7 @@
 		</javaTypeResolver>
 
 		<!--自动生成的实体的存放包路径 -->
-		<javaModelGenerator targetPackage="com.apitest.pojo"
+		<javaModelGenerator targetPackage="com.dieson.green.pojo"
 			targetProject="Green/src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
@@ -27,7 +27,7 @@
 
 		<!--自动生成的*dao.java存放路径 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.apitest.dao" targetProject="Green/src/main/java">
+			targetPackage="com.dieson.green.dao" targetProject="Green/src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
