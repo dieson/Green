@@ -7,7 +7,7 @@ package com.dieson.test;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		
+		int a = 1;
 	}
 
 }

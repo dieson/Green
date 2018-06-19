@@ -8,7 +8,7 @@
 	<!-- 加载spring容器 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml,spring.xml</param-value>
+		<param-value>classpath:spring.xml,classpath:applicationContext.xml</param-value>
 	</context-param>
 	<listener>
 		<description>spring监听器</description>

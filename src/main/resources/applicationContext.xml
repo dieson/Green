@@ -15,7 +15,8 @@
 	<context:property-placeholder
 		location="classpath:db.properties" />
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
@@ -32,9 +33,10 @@
 			value="classpath:mapper/*Mapper.xml"></property>
 	</bean>
 
-	<bean name="mapperScannerConfigurer"
-		class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.apitest.dao" />
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.dieson.green.dao" />
+		<property name="sqlSessionFactoryBeanName"
+			value="sqlSessionFactory" />
 	</bean>
 
 	<!-- 使用@Transactional进行声明式事务管理需要声明下面这行 -->

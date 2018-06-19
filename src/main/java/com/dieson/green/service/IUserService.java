@@ -1,5 +1,6 @@
 package com.dieson.green.service;
 
+import com.dieson.green.common.ServerResponse;
 import com.dieson.green.pojo.User;
 
 /** 
@@ -8,14 +9,16 @@ import com.dieson.green.pojo.User;
  * @parameter  
  */
 public interface IUserService {
-	User login(String username, String password);
+	ServerResponse<User> login(String username, String password);
 	
-	String register(User user);
+	ServerResponse<String> register(User user);	
 	
-	String checkVaild(String str, String type);
+	ServerResponse<String> checkVaild(String str);
 	
-	String forgetResetPasswor(String username, String passwordNew, String forgetToken);
+	ServerResponse<String> forgetResetPasswor(String username, String passwordNew, String forgetToken);
 	
-	String resetPassword(String passwordOld, String passwordNew, User user);
+	ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
+	
+	ServerResponse<Integer> checkAdminRole(User user);
 	
 }
