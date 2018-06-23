@@ -15,7 +15,7 @@ public interface IUserService {
 	
 	ServerResponse<String> checkVaild(String str);
 	
-	ServerResponse<String> forgetResetPasswor(String username, String passwordNew, String forgetToken);
+	ServerResponse<String> changePassword(String username, String passwordNew);
 	
 	ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
 	

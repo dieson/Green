@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dieson.green.common.Const;
 import com.dieson.green.common.ServerResponse;
-import com.dieson.green.common.TokenCache;
 import com.dieson.green.dao.UserMapper;
 import com.dieson.green.pojo.User;
 import com.dieson.green.service.IUserService;
@@ -76,32 +75,18 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public ServerResponse<String> forgetResetPasswor(String username, String passwordNew, String forgetToken) {
-		if (StringUtils.isBlank(forgetToken)) {
-			return ServerResponse.createByErrorMesssage("参数错误,token需要传递");
-		}
-		// 需要校验username, 因为token的key用到username去拼接,username为空会直接获得forgetToken
+	public ServerResponse<String> changePassword(String username, String passwordNew) {
+		// 需要校验username,
 		ServerResponse<String> vaildResponse = this.checkVaild(username);
 		if (vaildResponse.isSuccess()) {
 			return ServerResponse.createByErrorMesssage("用户不存在");
 		}
-		String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
 
-		// 对cache中的token进行验证
-		if (StringUtils.isBlank(token)) {
-			return ServerResponse.createByErrorMesssage("token无效或者过期");
-		}
+		String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
+		int resultCount = userMapper.updatePasswordByUsername(username, md5Password);
 
-		// str 是null也没有关系,不会报空指针
-		if (StringUtils.equals(forgetToken, token)) {
-			String md5Password = MD5Util.MD5EncodeUtf8(passwordNew);
-			int resultCount = userMapper.updatePasswordByUsername(username, md5Password);
-
-			if (resultCount > 0) {
-				return ServerResponse.createBySuccessMessage("修改密码成功");
-			}
-		} else {
-			return ServerResponse.createByErrorMesssage("token错误,请重新获取重置密码的token");
+		if (resultCount > 0) {
+			return ServerResponse.createBySuccessMessage("修改密码成功");
 		}
 
 		return ServerResponse.createByErrorMesssage("修改密码失败");

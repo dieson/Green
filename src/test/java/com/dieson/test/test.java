@@ -1,5 +1,7 @@
 package com.dieson.test;
 
+import com.dieson.green.utils.PropertiesUtil;
+
 /**
  * @author Dieson Zuo
  * @date 创建时间：30 Nov 2016 1:50:42 pm
@@ -7,7 +9,7 @@ package com.dieson.test;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		int a = 1;
+		System.out.println(PropertiesUtil.getPropertyList("public.url"));
 	}
 
 }
