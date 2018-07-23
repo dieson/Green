@@ -1,6 +1,8 @@
 package com.dieson.green.service;
 
-import com.dieson.green.common.ServerResponse;
+import java.util.List;
+
+import com.dieson.green.dto.ServerResponse;
 import com.dieson.green.pojo.User;
 
 /** 
@@ -17,8 +19,20 @@ public interface IUserService {
 	
 	ServerResponse<String> changePassword(String username, String passwordNew);
 	
-	ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user);
+	ServerResponse<String> resetPassword(String username);
 	
-	ServerResponse<Integer> checkAdminRole(User user);
+	ServerResponse<User> getUserInfo(String username);
 	
+	ServerResponse<User> getUserInfoById(Integer id);
+	
+	ServerResponse<String> updateUser(User user);
+	
+	ServerResponse<String> setAdmin(String username);
+	
+	ServerResponse<String> updateUserStatus(String username);
+	
+	/**
+	 * 查询所有用户与其对应的项目信息
+	 */
+	ServerResponse<List<User>> getUser();
 }

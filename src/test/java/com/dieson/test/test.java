@@ -1,6 +1,6 @@
 package com.dieson.test;
 
-import com.dieson.green.utils.PropertiesUtil;
+import com.dieson.green.utils.MD5Util;
 
 /**
  * @author Dieson Zuo
@@ -9,7 +9,7 @@ import com.dieson.green.utils.PropertiesUtil;
 public class test {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(PropertiesUtil.getPropertyList("public.url"));
+		System.out.println(MD5Util.MD5EncodeUtf8("123"));
 	}
 
 }

@@ -6,71 +6,68 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="Login page">
 <meta name="author" content="Dieson Zuo">
-<link rel="icon"
-	href="${pageContext.request.contextPath}/static/img/favicon.ico">
+<link rel="icon" href="${pageContext.request.contextPath}/static/images/favicon.ico">
 <title>Green automation test - Login</title>
 
-<link
-	href="${pageContext.request.contextPath}/static/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/static/css/signin.css"
-	rel="stylesheet">
-<script src="${pageContext.request.contextPath}/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/font.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/xadmin.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/js/xadmin.js"></script>
 </head>
 
-<body>
-	<div class="container">
-		<form class="form-signin">
-			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputUsername" class="sr-only">Username</label> 
-			<input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus> 
-			<label for="inputPassword" class="sr-only">Password</label> 
-			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me">
-					Remember me
-				</label>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">Sign in</button>
-		</form>
-		<form class="form-signin" action="${pageContext.request.contextPath }/user/test.do">
-			<button class="btn btn-lg btn-primary btn-block" type="submit">test</button>
-		</form>
-	</div>
-	<!-- /container -->
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">Green auto test-Login</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form  id="loginForm" action="${pageContext.request.contextPath }/index.do" method="post" class="layui-form" >
+            <input name="username" id="username" placeholder="Username"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="password" id="password" lay-verify="required" placeholder="Password"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="Login" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+        </form>
+    </div>
 
-	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script
-		src="http://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js"></script>
-
-	<script type="text/javascript">
-		function login() {
-			window.event.returnValue=false;
-			var username = document.getElementById('inputUsername').value;
-			var password = document.getElementById('inputPassword').value;
-
-			var user = {};
-			user['username'] = username;
-			user['password'] = password;
-			$.ajax({
-                url: '${pageContext.request.contextPath }/user/login.do',
-                type: 'post',
-                contentType: 'application/json;charset=UTF-8',
-                async: false,
-                dataType: 'json',
-                data: JSON.stringify(user),
-                success: function (data) {
-					 if (data['code'] == 200) { 
-						 debugger;
-						 alert('${pageContext.request.contextPath}/home/home.jsp');
-						 window.location.href = '${pageContext.request.contextPath}/home/home.jsp';
-						 window.event.returnValue=false;
+	<script>
+		$(function() {
+			layui.use('form', function() {
+				var form = layui.form;
+				/* layer.msg('Please waiting...', function(){
+				  //关闭后的操作
+				}); */
+				//监听提交
+				form.on('submit(login)', function(data) {
+					var user = {};
+					user['username'] = data.field.username;
+					user['password'] = data.field.password;
+					var datas = new Object();
+					$.ajax({
+						url : '${pageContext.request.contextPath }/user/login.do',
+						type : 'post',
+						contentType : 'application/json;charset=UTF-8',
+						async : false,
+						dataType : 'json',
+						data : JSON.stringify(user),
+						success : function(result, textStatus, request) {
+							datas = result;
+						}
+					});
+					if (datas.code != 200) {
+						layer.tips(datas.msg, "#username", {tips:[2,"red"]});
+						return false;
 					}
-                },error: function (responseText){
-                	alert("后台异常,执行注册时再检查用户是否存在");
-                }
-            }); 
-		}
+				});
+				
+			});
+			
+		})
+		
+		
 	</script>
+
 </body>
 </html>

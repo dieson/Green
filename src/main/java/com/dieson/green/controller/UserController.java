@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.dieson.green.common.Const;
-import com.dieson.green.common.ServerResponse;
+import com.dieson.green.dto.ServerResponse;
 import com.dieson.green.pojo.User;
 import com.dieson.green.service.IUserService;
 
@@ -20,27 +21,21 @@ public class UserController {
 
 	@Autowired
 	private IUserService iUserService;
-	
-	@RequestMapping(value = "test.do", method = RequestMethod.GET)
-	public String test() {
-		return "forward:home";
-	}
 
 	/**
-	 * 用户登录
-	 *
-	 * @param username
-	 * @param password
-	 * @param session
-	 * @return
+	 * 用户登录，校验用户信息是否正确
 	 */
 	@RequestMapping(value = "login.do", method = RequestMethod.POST)
-	public String login(@RequestBody User user) {
-		ServerResponse<User> response = iUserService.login(user.getUsername(), user.getPassword());
-//		if (response.isSuccess()) {
-//			session.setAttribute(Const.CURRENT_USER, response.getData());
-//		}
-		return response;
+	@ResponseBody
+	public ServerResponse<User> login(@RequestBody User user, HttpSession session) {
+
+		ServerResponse<User> responseBody = iUserService.login(user.getUsername(), user.getPassword());
+		session.setAttribute(Const.CURRENT_USER, responseBody.getData());
+		
+		// 生成token，保存用户登录状态
+//		Token token = iTokenManager.createToken(responseBody.getData().getId());
+//		response.setHeader(Const.TOKEN, responseBody.getData().getId() + "_" + token.getToken());
+		return responseBody;
 	}
 
 	/**
@@ -48,9 +43,13 @@ public class UserController {
 	 */
 	@RequestMapping(value = "logout.do", method = RequestMethod.GET)
 	@ResponseBody
-	public ServerResponse<String> logout(HttpSession session) {
+	public ModelAndView logout(HttpSession session) {
+
+//		Integer userID = (Integer) request.getAttribute(Const.CURRENT_USER_ID);
+//		iTokenManager.deleteToken(userID);
+		
 		session.removeAttribute(Const.CURRENT_USER);
-		return ServerResponse.createBySuccess();
+		return new ModelAndView("redirect:/index.jsp");
 	}
 
 	/**
@@ -84,19 +83,18 @@ public class UserController {
 	}
 
 	/**
-	 * 登录状态下的重置密码
+	 * 修改密码
 	 * 
 	 * @param session
 	 * @param passwordOld
 	 * @param passwordNew
 	 * @return
 	 */
-	@RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
+	@RequestMapping(value = "change_password.do", method = RequestMethod.POST)
 	@ResponseBody
-	public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
-		User user = (User) session.getAttribute(Const.CURRENT_USER);
+	public ServerResponse<String> changePassword(String passwordOld, String passwordNew) {
 
-		return iUserService.resetPassword(passwordOld, passwordNew, user);
+		return iUserService.changePassword(passwordOld, passwordNew);
 	}
 
 }

@@ -14,7 +14,9 @@
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
-    <context:property-placeholder location="classpath:db.properties"/>
+    <context:property-placeholder location="classpath:db.properties" ignore-unresolvable="true" />
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
     <import resource="applicationContext.xml"/>
+    <import resource="redis-context.xml" />
 	
 </beans>

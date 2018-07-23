@@ -1,13 +1,15 @@
 package com.dieson.green.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dieson.green.common.Const;
-import com.dieson.green.common.ServerResponse;
 import com.dieson.green.dao.UserMapper;
+import com.dieson.green.dto.ServerResponse;
 import com.dieson.green.pojo.User;
 import com.dieson.green.service.IUserService;
 import com.dieson.green.utils.MD5Util;
@@ -47,8 +49,6 @@ public class UserServiceImpl implements IUserService {
 		if (!validResponse.isSuccess()) {
 			return validResponse;
 		}
-		// 默认把用户设置成为一个普通用户
-		user.setRole(Const.Role.ROLE_CUSTOMER);
 		// MD5加密
 		user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
 
@@ -93,14 +93,11 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
-		// 防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户,因为我们会count(1),如果不指定id,结果为true,count>0
-		int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
-		if (resultCount == 0) {
-			return ServerResponse.createByErrorMesssage("旧密码错误");
-		}
+	public ServerResponse<String> resetPassword(String username) {
 
-		user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
+		User user = userMapper.selectUserByName(username);
+
+		user.setPassword(MD5Util.MD5EncodeUtf8(Const.RESET_PASSWORD));
 		int updateCount = userMapper.updateByPrimaryKeySelective(user);
 		if (updateCount > 0) {
 			return ServerResponse.createBySuccessMessage("密码更新成功");
@@ -110,11 +107,76 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public ServerResponse<Integer> checkAdminRole(User user) {
-		if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
-			return ServerResponse.createBySuccess();
+	public ServerResponse<User> getUserInfo(String username) {
+		int resultCount = userMapper.checkUserName(username);
+		if (resultCount == 0) {
+			return ServerResponse.createByErrorMesssage("用户名不存在");
 		}
-		return ServerResponse.createByError();
+
+		User user = userMapper.selectUserByName(username);
+
+		return ServerResponse.createBySuccess(user);
+	}
+
+	@Override
+	public ServerResponse<User> getUserInfoById(Integer id) {
+		User user = userMapper.selectUserById(id);
+		return ServerResponse.createBySuccess(user);
+	}
+
+	@Override
+	public ServerResponse<String> updateUser(User user) {
+
+		Integer userId = userMapper.selectUserByName(user.getUsername()).getId();
+		user.setId(userId);
+
+		int resultCount = userMapper.updateByPrimaryKeySelective(user);
+		if (resultCount == 0) {
+			return ServerResponse.createByErrorMesssage("更新失败");
+		}
+		return ServerResponse.createByErrorMesssage("更新成功");
+	}
+
+	@Override
+	public ServerResponse<String> setAdmin(String username) {
+
+		User user = userMapper.selectUserByName(username);
+		if (user.getIsSpre().equals(true)) {
+			user.setIsSpre(false);
+		} else {
+			user.setIsSpre(true);
+		}
+
+		int resultCount = userMapper.updateByPrimaryKeySelective(user);
+		if (resultCount == 1) {
+			return ServerResponse.createByErrorMesssage("更新成功");
+		}
+		return ServerResponse.createByErrorMesssage("更新失败");
+	}
+
+	@Override
+	public ServerResponse<String> updateUserStatus(String username) {
+
+		User user = userMapper.selectUserByName(username);
+		if (user.getStatus().equals(true)) {
+			user.setStatus(false);
+		} else {
+			user.setStatus(true);
+		}
+
+		int resultCount = userMapper.updateByPrimaryKeySelective(user);
+		if (resultCount == 1) {
+			return ServerResponse.createByErrorMesssage("更新成功");
+		}
+		return ServerResponse.createByErrorMesssage("更新失败");
+	}
+
+	@Override
+	public ServerResponse<List<User>> getUser() {
+
+		List<User> users = userMapper.selectUser();
+
+		return ServerResponse.createBySuccess(users);
 	}
 
 }
