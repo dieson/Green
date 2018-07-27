@@ -40,7 +40,7 @@ public class ModelController {
 		ServerResponse<List<ModelsCustom>> list = iModelService.getModelsCustom();
 		List<ModelsCustom> modelsCustom = list.getData();
 
-		ModelAndView mv = new ModelAndView("redirect:/model/index.jsp");
+		ModelAndView mv = new ModelAndView("redirect:/model/modelMain.jsp");
 		mv.addObject("modelsCustom", modelsCustom);
 
 		return mv;

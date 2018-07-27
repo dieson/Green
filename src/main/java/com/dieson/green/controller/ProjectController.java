@@ -37,7 +37,7 @@ public class ProjectController {
 		ServerResponse<List<Projects>> list = iProjectService.getProject();
 		List<Projects> projects = list.getData();
 
-		ModelAndView mv = new ModelAndView("redirect:/project/index.jsp");
+		ModelAndView mv = new ModelAndView("redirect:/project/projectMain.jsp");
 		mv.addObject("projects", projects);
 
 		return mv;

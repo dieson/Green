@@ -33,7 +33,7 @@ public class IndexController {
 		Integer userId = (Integer) request.getAttribute(Const.CURRENT_USER_ID);
 		User user = iUserService.getUserInfoById(userId).getData();
 		
-		ModelAndView mv = new ModelAndView("home/index");
+		ModelAndView mv = new ModelAndView("home/homeMain");
 		mv.addObject("username", user.getUsername());
 		return mv;
 		

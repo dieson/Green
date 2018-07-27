@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dieson.green.dto.ServerResponse;
+import com.dieson.green.entiy.TestEnvironmentCustom;
 import com.dieson.green.pojo.TestEnvironment;
 import com.dieson.green.service.ITestEnvironmentService;
 
@@ -30,14 +31,16 @@ public class TestEnvironmentController {
 
 	/**
 	 * 打开测试环境管理页面
+	 * 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "environment_index.do", method = RequestMethod.GET)
-	public ModelAndView load() {
+	public ModelAndView load() throws Exception {
 
-		ServerResponse<List<TestEnvironment>> list = iTestEnvironmentService.getTestEnvironment();
-		List<TestEnvironment> environments = list.getData();
+		ServerResponse<List<TestEnvironmentCustom>> list = iTestEnvironmentService.getTestEnvironment();
+		List<TestEnvironmentCustom> environments = list.getData();
 
-		ModelAndView mv = new ModelAndView("redirect:/environment/index.jsp");
+		ModelAndView mv = new ModelAndView("environment/environmentMain");
 		mv.addObject("environments", environments);
 
 		return mv;
@@ -48,10 +51,11 @@ public class TestEnvironmentController {
 	 *
 	 * @param projects
 	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "create.do", method = RequestMethod.POST)
 	@ResponseBody
-	public ServerResponse<String> create(@RequestBody TestEnvironment environment) {
+	public ServerResponse<String> create(@RequestBody TestEnvironment environment) throws Exception {
 
 		return iTestEnvironmentService.createTestEnvironment(environment);
 	}
@@ -64,13 +68,13 @@ public class TestEnvironmentController {
 
 		return iTestEnvironmentService.updateTestEnvironment(environment);
 	}
-	
+
 	/**
 	 * 删除项目
 	 */
 	@RequestMapping(value = "deleteEnvironment.do", method = RequestMethod.POST)
-	public ServerResponse<String> deleteProject(@Param("environment_id") Integer environmentId){
-		
+	public ServerResponse<String> deleteProject(@Param("environment_id") Integer environmentId) {
+
 		return iTestEnvironmentService.deleteTestEnvironment(environmentId);
 	}
 }

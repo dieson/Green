@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dieson.green.dao.TestEnvironmentMapper;
+import com.dieson.green.dao.TestEnvironmentMapperCustom;
 import com.dieson.green.dto.ServerResponse;
+import com.dieson.green.entiy.TestEnvironmentCustom;
 import com.dieson.green.pojo.TestEnvironment;
 import com.dieson.green.service.ITestEnvironmentService;
 
@@ -21,23 +23,26 @@ import com.dieson.green.service.ITestEnvironmentService;
 @Transactional
 @Service("iTestEnvironmentService")
 public class TestEnvironmentServiceImpl implements ITestEnvironmentService {
-	
+
 	@Autowired
 	TestEnvironmentMapper testEnvironmentMapper;
 
+	@Autowired
+	TestEnvironmentMapperCustom testEnvironmentMapperCustom;
+
 	@Override
-	public ServerResponse<List<TestEnvironment>> getTestEnvironment() {
-		
-		List<TestEnvironment> environment = testEnvironmentMapper.selectTestEnvironment();
+	public ServerResponse<List<TestEnvironmentCustom>> getTestEnvironment() throws Exception {
+
+		List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUser();
 		if (environment == null) {
 			return ServerResponse.createByErrorMesssage("获取环境信息失败");
-		}	
+		}
 		return ServerResponse.createBySuccess(environment);
 	}
 
 	@Override
-	public ServerResponse<String> createTestEnvironment(TestEnvironment environment) {
-		
+	public ServerResponse<String> createTestEnvironment(TestEnvironment environment) throws Exception {
+
 		ServerResponse<String> validResponse = this.checkTestEnvironment(environment.getUrl());
 		if (!validResponse.isSuccess()) {
 			return validResponse;
@@ -50,8 +55,8 @@ public class TestEnvironmentServiceImpl implements ITestEnvironmentService {
 	}
 
 	@Override
-	public ServerResponse<String> checkTestEnvironment(String url) {
-		
+	public ServerResponse<String> checkTestEnvironment(String url) throws Exception {
+
 		if (StringUtils.isNotBlank(url)) {
 			// 开始校验
 			int resultCount = testEnvironmentMapper.checkTestEnvironment(url);
@@ -67,7 +72,7 @@ public class TestEnvironmentServiceImpl implements ITestEnvironmentService {
 
 	@Override
 	public ServerResponse<String> updateTestEnvironment(TestEnvironment environment) {
-		
+
 		int resultCount = testEnvironmentMapper.updateByPrimaryKeySelective(environment);
 		if (resultCount == 1) {
 			return ServerResponse.createByErrorMesssage("更新成功");

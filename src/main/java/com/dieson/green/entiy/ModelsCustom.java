@@ -1,6 +1,7 @@
 package com.dieson.green.entiy;
 
 import com.dieson.green.pojo.Models;
+import com.dieson.green.pojo.Projects;
 
 /**
  * @ClassName: ModelsCustom
@@ -8,25 +9,26 @@ import com.dieson.green.pojo.Models;
  * @author: Dieson Zuo
  * @date: 2018年7月19日 上午11:00:25
  */
-public class ModelsCustom extends Models{
-	
-	/**
-	 * 项目名称
-	 */
-	private String projectName;
+public class ModelsCustom extends Models {
 
 	/**
-	 * @return the projectName
+	 * 模块所对应的项目
 	 */
-	public String getProjectName() {
-		return projectName;
+	private Projects project;
+
+	/**
+	 * @return the project
+	 */
+	public Projects getProject() {
+		return project;
 	}
 
 	/**
-	 * @param projectName the projectName to set
+	 * @param project
+	 *            the project to set
 	 */
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public void setProject(Projects project) {
+		this.project = project;
 	}
 
 }

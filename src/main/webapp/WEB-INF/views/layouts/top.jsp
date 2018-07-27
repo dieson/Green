@@ -3,7 +3,7 @@
 <!-- 顶部开始 -->
 <div class="container">
 	<div class="logo">
-		<a href="/WEB-INF/views/home/index.jsp">Green-测试平台</a>
+		<a href="${ctx }/index.do">Green-测试平台</a>
 	</div>
 	<div class="left_open">
 		<i title="展开左侧栏" class="iconfont">&#xe699;</i>
@@ -37,7 +37,7 @@
 					<a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a>
 				</dd>
 				<dd>
-					<a href="${pageContext.request.contextPath}/user/logout.do">退出</a>
+					<a href="${ctx }/user/logout.do">退出</a>
 				</dd>
 			</dl></li>
 		<li class="layui-nav-item to-index"><a href="/">前台首页</a></li>

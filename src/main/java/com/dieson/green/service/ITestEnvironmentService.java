@@ -3,6 +3,7 @@ package com.dieson.green.service;
 import java.util.List;
 
 import com.dieson.green.dto.ServerResponse;
+import com.dieson.green.entiy.TestEnvironmentCustom;
 import com.dieson.green.pojo.TestEnvironment;
 
 /**
@@ -15,18 +16,22 @@ public interface ITestEnvironmentService {
 	
 	/**
 	 * 获取所有测试环境数据
+	 * @throws Exception 
 	 */
-	ServerResponse<List<TestEnvironment>> getTestEnvironment();
+	ServerResponse<List<TestEnvironmentCustom>> getTestEnvironment() throws Exception;
 	
 	/**
 	 * 创建环境信息
+	 * @throws Exception 
 	 */
-	ServerResponse<String> createTestEnvironment(TestEnvironment environment);
+	ServerResponse<String> createTestEnvironment(TestEnvironment environment) throws Exception;
 	
 	/**
 	 * 检验环境是否存在
+	 * 
+	 * @throws Exception
 	 */
-	ServerResponse<String> checkTestEnvironment(String url);
+	ServerResponse<String> checkTestEnvironment(String url) throws Exception;
 	
 	/**
 	 * 更新环境信息

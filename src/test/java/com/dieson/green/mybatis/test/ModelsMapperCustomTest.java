@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.dieson.green.dao.ModelsMapperCustom;
+import com.dieson.green.dao.UserMapperCustom;
 import com.dieson.green.entiy.ModelsCustom;
+import com.dieson.green.entiy.UserCustom;
 
 /**
  * @ClassName: ModelsMapperCustomTest
@@ -24,6 +26,8 @@ public class ModelsMapperCustomTest {
 	@Autowired
 	ModelsMapperCustom modelsMapperCustom;
 	
+	@Autowired
+	UserMapperCustom userMapperCustom;
 	
 	/**
 	 * Test method for
@@ -38,6 +42,13 @@ public class ModelsMapperCustomTest {
 		
 		System.out.println(list);
 		
+	}
+	
+	@Test
+	public void testSelectUserProject() throws Exception{
+		List<UserCustom> list = userMapperCustom.selectUserProjects();
+		
+		System.out.println(list);
 	}
 
 }

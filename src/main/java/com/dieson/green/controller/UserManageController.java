@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dieson.green.dto.ServerResponse;
+import com.dieson.green.entiy.UserCustom;
 import com.dieson.green.pojo.User;
 import com.dieson.green.service.IUserService;
 
@@ -42,14 +43,16 @@ public class UserManageController {
 
 	/**
 	 * 打开用户管理页面
+	 * 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "user_index.do", method = RequestMethod.GET)
-	public ModelAndView load() {
+	public ModelAndView load() throws Exception {
 
-		ServerResponse<List<User>> list = iUserService.getUser();
-		List<User> uqv = list.getData();
+		ServerResponse<List<UserCustom>> list = iUserService.getUserProject();
+		List<UserCustom> uqv = list.getData();
 
-		ModelAndView mv = new ModelAndView("redirect:/user/index.jsp");
+		ModelAndView mv = new ModelAndView("user/userMain");
 		mv.addObject("uqv", uqv);
 
 		return mv;
@@ -73,7 +76,7 @@ public class UserManageController {
 
 		iUserService.updateUserStatus(username);
 
-		return new ModelAndView("redirect:/user/index.jsp");
+		return new ModelAndView("redirect:/user/userMain.jsp");
 	}
 
 	/**
@@ -96,6 +99,6 @@ public class UserManageController {
 	public ModelAndView setAdmin(String username) {
 
 		iUserService.setAdmin(username);
-		return new ModelAndView("redirect:/user/index.jsp");
+		return new ModelAndView("redirect:/user/userMain.jsp");
 	}
 }

@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dieson.green.common.Const;
 import com.dieson.green.dao.UserMapper;
+import com.dieson.green.dao.UserMapperCustom;
 import com.dieson.green.dto.ServerResponse;
+import com.dieson.green.entiy.UserCustom;
 import com.dieson.green.pojo.User;
 import com.dieson.green.service.IUserService;
 import com.dieson.green.utils.MD5Util;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private UserMapperCustom userMapperCustom;
 
 	@Override
 	public ServerResponse<User> login(String username, String password) {
@@ -172,11 +177,11 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public ServerResponse<List<User>> getUser() {
+	public ServerResponse<List<UserCustom>> getUserProject() throws Exception {
 
-		List<User> users = userMapper.selectUser();
+		List<UserCustom> userCustom = userMapperCustom.selectUserProjects();
 
-		return ServerResponse.createBySuccess(users);
+		return ServerResponse.createBySuccess(userCustom);
 	}
 
 }

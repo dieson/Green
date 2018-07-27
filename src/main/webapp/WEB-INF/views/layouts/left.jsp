@@ -7,7 +7,7 @@
 			<li><a href="javascript:;"> <i class="layui-icon">&#xe653;</i>
 					<cite>项目</cite>
 			</a>
-			<li><a href="javascript:;"> <i class="layui-icon">&#xe716;</i>
+			<li><a href="${ctx }/environment/environment_index.do"> <i class="layui-icon">&#xe716;</i>
 					<cite>测试环境</cite>
 			</a></li>
 			<li><a href="javascript:;"> <i class="layui-icon">&#xe656;</i>
@@ -28,7 +28,7 @@
 			<li><a href="javascript:;"> <i class="layui-icon">&#xe629;</i>
 					<cite>测试报告</cite>
 			</a></li>
-			<li><a href="javascript:;"> <i class="layui-icon">&#xe613;</i>
+			<li><a href="${ctx }/user/manage/user_index.do"> <i class="layui-icon">&#xe613;</i>
 					<cite>用户管理</cite>
 			</a></li>
 		</ul>

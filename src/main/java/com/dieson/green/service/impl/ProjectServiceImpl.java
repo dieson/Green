@@ -14,32 +14,30 @@ import com.dieson.green.service.IProjectService;
 
 /**
  * @ClassName: ProjectServiceImpl
- * @Description: 
+ * @Description:
  * @author: Dieson Zuo
  * @date: 2018年7月18日 上午11:19:02
  */
 @Transactional
 @Service("iProjectService")
 public class ProjectServiceImpl implements IProjectService {
-	
+
 	@Autowired
 	ProjectsMapper projectsMapper;
-	
 
 	@Override
 	public ServerResponse<List<Projects>> getProject() {
-		
+
 		List<Projects> projects = projectsMapper.selecProjects();
 		if (projects == null) {
 			return ServerResponse.createByErrorMesssage("获取项目列表失败");
-		}	
+		}
 		return ServerResponse.createBySuccess(projects);
 	}
 
-
 	@Override
 	public ServerResponse<String> createProject(Projects projects) {
-		
+
 		ServerResponse<String> validResponse = this.checkProjectName(projects.getProjectName());
 		if (!validResponse.isSuccess()) {
 			return validResponse;
@@ -51,10 +49,9 @@ public class ProjectServiceImpl implements IProjectService {
 		return ServerResponse.createBySuccessMessage("创建成功");
 	}
 
-
 	@Override
 	public ServerResponse<String> checkProjectName(String projectName) {
-		
+
 		if (StringUtils.isNotBlank(projectName)) {
 			// 开始校验
 			int resultCount = projectsMapper.checkProjectName(projectName);
@@ -68,21 +65,19 @@ public class ProjectServiceImpl implements IProjectService {
 		}
 	}
 
-
 	@Override
 	public ServerResponse<String> updateProject(Projects projects) {
-		
-		if(StringUtils.isNotBlank(projects.getProjectName())) {
+
+		if (StringUtils.isNotBlank(projects.getProjectName())) {
 			return ServerResponse.createByErrorMesssage("请输入项目名称");
-		} 
-		
+		}
+
 		int resultCount = projectsMapper.updateByPrimaryKeySelective(projects);
 		if (resultCount == 1) {
 			return ServerResponse.createByErrorMesssage("更新成功");
 		}
 		return ServerResponse.createByErrorMesssage("更新失败");
 	}
-
 
 	@Override
 	public ServerResponse<String> deleteProject(Integer id) {
