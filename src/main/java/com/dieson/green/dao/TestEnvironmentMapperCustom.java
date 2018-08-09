@@ -2,6 +2,8 @@ package com.dieson.green.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.dieson.green.entiy.TestEnvironmentCustom;
 
 /**
@@ -16,4 +18,9 @@ public interface TestEnvironmentMapperCustom {
 	 * 查询环境信息和创建用户
 	 */
 	List<TestEnvironmentCustom> selectEnvironmentUser() throws Exception;
+
+	/**
+	 * 分页查询环境信息
+	 */
+	List<TestEnvironmentCustom> selectEnvironmentUserPage(@Param("totalPage") int totalPage, @Param("limitPage") int limitPage) throws Exception;
 }

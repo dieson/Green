@@ -53,4 +53,13 @@
 		test_environment.make_user=`user`.id
 	</select>
 
+	<select id="selectEnvironmentUserPage" parameterMap="map"
+		resultMap="EnvironmentAndUser">
+		SELECT
+		test_environment.*,`user`.id
+		user_id,`user`.username,`user`.user_email,`user`.`status` user_staus
+		FROM test_environment,`user` WHERE
+		test_environment.make_user=`user`.id
+		LIMIT #{totalPage},#{limitPage}
+	</select>
 </mapper>

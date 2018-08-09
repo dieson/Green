@@ -91,7 +91,50 @@
 
 		</table>
 		<div class="page">
-			<div id="layui-laypage"></div>
+			<div>
+		        <div class="right">
+			        <c:if test="${currentPage == 1}">
+			            <span class="prev" >&lt;&lt;</span> 
+			        </c:if>
+			        <c:if test="${currentPage != 1}">
+			            <a class="prev" href="" onclick="previous_page()">&lt;&lt;</a>
+			        </c:if>
+			        <c:if test="${currentPage == 1}">
+			        <span class="current">1</span>
+			        </c:if>
+			        <c:if test="${currentPage != 1}">
+			        <a href="listUser.do?page=1">1</a>
+			        </c:if>
+			        <%
+			                int pageTimes = (Integer)session.getAttribute("pageTimes");
+			                for(int i=1;i<pageTimes;i++)
+			                {
+			                    request.setAttribute("page", i+1);
+			        %>            
+			        <c:if test="${currentPage == page}">
+			            <span class="current"><%=i+1%></span>       
+			        </c:if>
+			        <c:if test="${currentPage != page}">
+			             <a href="listUser.do?page=<%=i+1%>"><%=i+1%></a>
+			        </c:if>
+			        <%} %>
+			        <c:if test="${currentPage == pageTimes}">
+			            <span class="disabled">后一页 >></span>        
+			        </c:if>
+			        <c:if test="${currentPage != pageTimes}">
+			        	<a href="listUser.do?page=${currentPage+1}">后一页 >></a>
+			        </c:if>
+		        </div>
+	        </div>
+	        
+			<div>
+				<a class="prev" href="">&lt;&lt;</a>
+				<a class="num" href="">1</a>
+				<span class="current">2</span>
+				<a class="num" href="">3</a>
+				<a class="num" href="">489</a>
+				<a class="next" href="">&gt;&gt;</a>
+			</div>
 		</div>
 	</div>
 
@@ -103,8 +146,12 @@
 		var totalPageAllAppoint = 0;
 		var dataLength = 0;
 		
-		layui.use('laypage', function() {
+		function previous_page() {
 			
+		}
+
+		layui.use('laypage', function() {
+
 			//执行一个laypage实例
 
 			/*var laypage = layui.laypage; 

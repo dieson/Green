@@ -1,7 +1,6 @@
 package com.dieson.green.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -12,11 +11,16 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  * @date: 2018年7月25日 上午11:13:00
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-public class PageBean<T> implements Serializable {
+public class Page<T> implements Serializable {
 	/**
 	 * 当前页
 	 */
 	private Integer currentPage;
+
+	/**
+	 * 开始页码
+	 */
+	private int start;
 	/**
 	 * 每页显示条数
 	 */
@@ -25,6 +29,15 @@ public class PageBean<T> implements Serializable {
 	 * 总记录数
 	 */
 	private Integer totalCount;
+
+	/**
+	 * 总页数
+	 */
+	private Integer totalPage;
+	/**
+	 * 每页数据内容
+	 */
+	private T content;
 
 	/**
 	 * @return the currentPage
@@ -72,6 +85,21 @@ public class PageBean<T> implements Serializable {
 	}
 
 	/**
+	 * @return the start
+	 */
+	public int getStart() {
+		return start;
+	}
+
+	/**
+	 * @param start
+	 *            the start to set
+	 */
+	public void setStart(int start) {
+		this.start = start;
+	}
+
+	/**
 	 * @return the totalPage
 	 */
 	public Integer getTotalPage() {
@@ -89,7 +117,7 @@ public class PageBean<T> implements Serializable {
 	/**
 	 * @return the content
 	 */
-	public List<T> getContent() {
+	public T getContent() {
 		return content;
 	}
 
@@ -97,17 +125,8 @@ public class PageBean<T> implements Serializable {
 	 * @param content
 	 *            the content to set
 	 */
-	public void setContent(List<T> content) {
+	public void setContent(T content) {
 		this.content = content;
 	}
-
-	/**
-	 * 总页数
-	 */
-	private Integer totalPage;
-	/**
-	 * 每页数据内容
-	 */
-	private List<T> content;
 
 }
