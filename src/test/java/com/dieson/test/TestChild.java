@@ -10,4 +10,8 @@ public class TestChild extends TestExtend {
 	public void test() {
 		System.out.println("TestChild");
 	}
+	
+	public void no() {
+		System.out.println("no");
+	}
 }
