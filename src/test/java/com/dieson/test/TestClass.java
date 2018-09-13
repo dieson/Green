@@ -63,8 +63,8 @@ public class TestClass {
 		m.put("a", a);
 		System.out.println(m);
 
-		List<Map.Entry<String, User>> list = new ArrayList<Map.Entry<String, User>>(m.entrySet());
-		Collections.sort(list, new Comparator<Map.Entry<String, User>>() {
+		List<Entry<String, User>> list = new ArrayList<Entry<String, User>>(m.entrySet());
+		Collections.sort(list, new Comparator<Entry<String, User>>() {
 			@Override
 			public int compare(Entry<String, User> o1, Entry<String, User> o2) {
 				// TODO Auto-generated method stub

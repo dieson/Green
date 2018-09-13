@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-07-23 13:13:07
+Date: 2018-09-13 11:03:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,32 +36,18 @@ CREATE TABLE `author` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rose` int(11) DEFAULT NULL,
   `project` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `project` (`project`),
   KEY `rose` (`rose`),
+  KEY `user_id` (`user_id`),
   CONSTRAINT `author_ibfk_2` FOREIGN KEY (`project`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `author_ibfk_3` FOREIGN KEY (`rose`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `author_ibfk_3` FOREIGN KEY (`rose`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `author_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of author
--- ----------------------------
-
--- ----------------------------
--- Table structure for `auth_user`
--- ----------------------------
-DROP TABLE IF EXISTS `auth_user`;
-CREATE TABLE `auth_user` (
-  `user_id` int(11) DEFAULT NULL,
-  `auth_id` int(11) DEFAULT NULL,
-  KEY `auth_user_ibfk_1` (`user_id`),
-  KEY `auth_id` (`auth_id`),
-  CONSTRAINT `auth_user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `auth_user_ibfk_2` FOREIGN KEY (`auth_id`) REFERENCES `author` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of auth_user
 -- ----------------------------
 
 -- ----------------------------
@@ -170,7 +156,7 @@ CREATE TABLE `models` (
   PRIMARY KEY (`id`),
   KEY `model_project_id` (`model_project_id`),
   CONSTRAINT `models_ibfk_1` FOREIGN KEY (`model_project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of models
@@ -251,11 +237,16 @@ CREATE TABLE `roles` (
   `permissions` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of roles
 -- ----------------------------
+INSERT INTO `roles` VALUES ('1', 'owner', '1', null);
+INSERT INTO `roles` VALUES ('2', 'master', '1', null);
+INSERT INTO `roles` VALUES ('3', 'developer', '1', null);
+INSERT INTO `roles` VALUES ('4', 'reporter', '1', null);
+INSERT INTO `roles` VALUES ('5', 'guest', '1', null);
 
 -- ----------------------------
 -- Table structure for `tasks`
@@ -315,7 +306,6 @@ CREATE TABLE `test_environment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `make_user` int(11) DEFAULT NULL COMMENT '创建用户',
   `url` varchar(64) DEFAULT NULL COMMENT '地址',
-  `project` int(11) DEFAULT NULL COMMENT '环境对应的项目',
   `status` tinyint(1) DEFAULT '0' COMMENT '状态',
   `desc` varchar(255) DEFAULT NULL COMMENT '描述',
   `database` varchar(255) DEFAULT NULL COMMENT '数据库',
@@ -325,14 +315,13 @@ CREATE TABLE `test_environment` (
   `db_port` varchar(255) DEFAULT NULL COMMENT '数据库服务端口',
   PRIMARY KEY (`id`),
   KEY `make_user` (`make_user`),
-  KEY `project` (`project`),
-  CONSTRAINT `test_environment_ibfk_1` FOREIGN KEY (`make_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `test_environment_ibfk_2` FOREIGN KEY (`project`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `test_environment_ibfk_1` FOREIGN KEY (`make_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of test_environment
 -- ----------------------------
+INSERT INTO `test_environment` VALUES ('1', '2', 'https://10.130.232.10', '1', '232测试环境', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `test_interface`
@@ -426,8 +415,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', '202CB962AC59075B964B07152D234B70', '2016-11-06 16:56:45', '2018-05-15 00:01:59', 'admin@test.com', '0', '0', null);
-INSERT INTO `user` VALUES ('2', 'demo', 'ABE45D28281CFA2A4201C9B90A143095', '2018-07-18 13:21:32', '2018-07-18 13:21:36', 'test@test.com', '0', '0', null);
+INSERT INTO `user` VALUES ('1', 'admin', '202CB962AC59075B964B07152D234B70', '2016-11-06 16:56:45', '2018-05-15 00:01:59', 'admin@test.com', '0', '0', '1');
+INSERT INTO `user` VALUES ('2', 'demo', 'ABE45D28281CFA2A4201C9B90A143095', '2018-07-18 13:21:32', '2018-07-18 13:21:36', 'test@test.com', '1', '0', '4');
 
 -- ----------------------------
 -- Table structure for `works`
@@ -438,8 +427,14 @@ CREATE TABLE `works` (
   `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of works
 -- ----------------------------
+INSERT INTO `works` VALUES ('5', '产品经理');
+INSERT INTO `works` VALUES ('2', '开发');
+INSERT INTO `works` VALUES ('1', '测试');
+INSERT INTO `works` VALUES ('3', '测试组长');
+INSERT INTO `works` VALUES ('4', '测试经理');
+INSERT INTO `works` VALUES ('6', '项目经理');

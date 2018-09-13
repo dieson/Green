@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dieson.green.dao.TestEnvironmentMapper;
 import com.dieson.green.dao.TestEnvironmentMapperCustom;
-import com.dieson.green.dto.Page;
 import com.dieson.green.dto.ServerResponse;
 import com.dieson.green.entiy.TestEnvironmentCustom;
 import com.dieson.green.pojo.TestEnvironment;
@@ -37,7 +36,7 @@ public class TestEnvironmentServiceImpl implements ITestEnvironmentService {
 		List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUser();
 		if (environment == null) {
 			return ServerResponse.createByErrorMesssage("获取环境信息失败");
-		}
+		}	
 		return ServerResponse.createBySuccess(environment);
 	}
 
