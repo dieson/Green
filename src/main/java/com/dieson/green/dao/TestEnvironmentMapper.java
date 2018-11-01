@@ -3,6 +3,7 @@ package com.dieson.green.dao;
 import java.util.List;
 
 import com.dieson.green.pojo.TestEnvironment;
+import org.apache.ibatis.annotations.Param;
 
 public interface TestEnvironmentMapper {
 	/**
@@ -67,4 +68,9 @@ public interface TestEnvironmentMapper {
 	 * 获取测试环境的总数
 	 */
 	int selectEnvironmentCount() throws Exception;
+
+	/**
+	 * 根据名称获取测试环境url
+	 */
+	String selectTestEnvironmentByName(@Param("name") String name) throws Exception;
 }

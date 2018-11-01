@@ -24,83 +24,92 @@ import com.dieson.green.service.ITestEnvironmentService;
 @Service("iTestEnvironmentService")
 public class TestEnvironmentServiceImpl implements ITestEnvironmentService {
 
-	@Autowired
-	TestEnvironmentMapper testEnvironmentMapper;
+    @Autowired
+    TestEnvironmentMapper testEnvironmentMapper;
 
-	@Autowired
-	TestEnvironmentMapperCustom testEnvironmentMapperCustom;
+    @Autowired
+    TestEnvironmentMapperCustom testEnvironmentMapperCustom;
 
-	@Override
-	public ServerResponse<List<TestEnvironmentCustom>> getTestEnvironment() throws Exception {
+    @Override
+    public ServerResponse<List<TestEnvironmentCustom>> getTestEnvironment() throws Exception {
 
-		List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUser();
-		if (environment == null) {
-			return ServerResponse.createByErrorMesssage("获取环境信息失败");
-		}	
-		return ServerResponse.createBySuccess(environment);
-	}
+        List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUser();
+        if (environment == null) {
+            return ServerResponse.createByErrorMesssage("获取环境信息失败");
+        }
+        return ServerResponse.createBySuccess(environment);
+    }
 
-	@Override
-	public ServerResponse<String> createTestEnvironment(TestEnvironment environment) throws Exception {
+    @Override
+    public ServerResponse<String> createTestEnvironment(TestEnvironment environment) throws Exception {
 
-		ServerResponse<String> validResponse = this.checkTestEnvironment(environment.getUrl());
-		if (!validResponse.isSuccess()) {
-			return validResponse;
-		}
-		int resultCount = testEnvironmentMapper.insertSelective(environment);
-		if (resultCount == 0) {
-			return ServerResponse.createByErrorMesssage("创建失败");
-		}
-		return ServerResponse.createBySuccessMessage("创建成功");
-	}
+        ServerResponse<String> validResponse = this.checkTestEnvironment(environment.getUrl());
+        if (!validResponse.isSuccess()) {
+            return validResponse;
+        }
+        int resultCount = testEnvironmentMapper.insertSelective(environment);
+        if (resultCount == 0) {
+            return ServerResponse.createByErrorMesssage("创建失败");
+        }
+        return ServerResponse.createBySuccessMessage("创建成功");
+    }
 
-	@Override
-	public ServerResponse<String> checkTestEnvironment(String url) throws Exception {
+    @Override
+    public ServerResponse<String> checkTestEnvironment(String url) throws Exception {
 
-		if (StringUtils.isNotBlank(url)) {
-			// 开始校验
-			int resultCount = testEnvironmentMapper.checkTestEnvironment(url);
-			if (resultCount > 0) {
-				return ServerResponse.createByErrorMesssage("环境已存在");
-			} else {
-				return ServerResponse.createBySuccessMessage("可创建环境");
-			}
-		} else {
-			return ServerResponse.createByErrorMesssage("参数错误");
-		}
-	}
+        if (StringUtils.isNotBlank(url)) {
+            // 开始校验
+            int resultCount = testEnvironmentMapper.checkTestEnvironment(url);
+            if (resultCount > 0) {
+                return ServerResponse.createByErrorMesssage("环境已存在");
+            } else {
+                return ServerResponse.createBySuccessMessage("可创建环境");
+            }
+        } else {
+            return ServerResponse.createByErrorMesssage("参数错误");
+        }
+    }
 
-	@Override
-	public ServerResponse<String> updateTestEnvironment(TestEnvironment environment) {
+    @Override
+    public ServerResponse<String> updateTestEnvironment(TestEnvironment environment) {
 
-		int resultCount = testEnvironmentMapper.updateByPrimaryKeySelective(environment);
-		if (resultCount == 1) {
-			return ServerResponse.createByErrorMesssage("更新成功");
-		}
-		return ServerResponse.createByErrorMesssage("更新失败");
-	}
+        int resultCount = testEnvironmentMapper.updateByPrimaryKeySelective(environment);
+        if (resultCount == 1) {
+            return ServerResponse.createByErrorMesssage("更新成功");
+        }
+        return ServerResponse.createByErrorMesssage("更新失败");
+    }
 
-	@Override
-	public ServerResponse<String> deleteTestEnvironment(Integer id) {
+    @Override
+    public ServerResponse<String> deleteTestEnvironment(Integer id) {
 
-		int resultCount = testEnvironmentMapper.deleteByPrimaryKey(id);
-		if (resultCount != 0) {
-			return ServerResponse.createByErrorMesssage("删除成功");
-		}
-		return ServerResponse.createByErrorMesssage("删除失败");
-	}
+        int resultCount = testEnvironmentMapper.deleteByPrimaryKey(id);
+        if (resultCount != 0) {
+            return ServerResponse.createByErrorMesssage("删除成功");
+        }
+        return ServerResponse.createByErrorMesssage("删除失败");
+    }
 
-	@Override
-	public ServerResponse<List<TestEnvironmentCustom>> getTestEnvironmentPage(int totalPage, int limitPage)
-			throws Exception {
-		
-		List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUserPage(totalPage, limitPage);
-		if (environment == null) {
-			return ServerResponse.createByErrorMesssage("获取环境信息失败");
-		}
-		return ServerResponse.createBySuccess(environment);
-	}
+    @Override
+    public ServerResponse<List<TestEnvironmentCustom>> getTestEnvironmentPage(int totalPage, int limitPage)
+            throws Exception {
 
+        List<TestEnvironmentCustom> environment = testEnvironmentMapperCustom.selectEnvironmentUserPage(totalPage, limitPage);
+        if (environment == null) {
+            return ServerResponse.createByErrorMesssage("获取环境信息失败");
+        }
+        return ServerResponse.createBySuccess(environment);
+    }
+
+    @Override
+    public ServerResponse<String> getTestEnviromentByName(String name) throws Exception {
+
+        String url = testEnvironmentMapper.selectTestEnvironmentByName(name);
+        if (url == null) {
+            return ServerResponse.createByErrorMesssage("无法获取环境地址！");
+        }
+        return ServerResponse.createBySuccess(url);
+    }
 
 
 }

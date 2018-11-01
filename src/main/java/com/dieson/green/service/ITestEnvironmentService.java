@@ -50,4 +50,9 @@ public interface ITestEnvironmentService {
 	 * 获取测试环境信息
 	 */
 	ServerResponse<List<TestEnvironmentCustom>> getTestEnvironmentPage(int totalPage, int limitPage) throws Exception;
+
+	/**
+	 * 根据环境名称获取测试环境url
+	 */
+	ServerResponse<String> getTestEnviromentByName(String name) throws Exception;
 }
