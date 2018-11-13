@@ -64,12 +64,12 @@ public class LoginHandlerIntercepter implements HandlerInterceptor {
 		return false;
 		
 		// 从request中得到token
-		/*String token = (String) request.getHeader(Const.TOKEN);
+		/*String token = (String) runTest.getHeader(Const.TOKEN);
 		// 验证token
 		Token model = iTokenManager.getToken(token);
 		if (iTokenManager.checkToken(model)) {
 			// 如果token验证成功，将token对应的用户id存在request中，便于之后注入
-			request.setAttribute(Const.CURRENT_USER_ID, model.getUserId());
+			runTest.setAttribute(Const.CURRENT_USER_ID, model.getUserId());
 			return true;
 		} else {
 			response.sendRedirect("/green");

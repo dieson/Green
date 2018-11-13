@@ -29,6 +29,13 @@
             <version>4.5.6</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
+        </dependency>
+
         <!-- config redis data and client jar -->
         <dependency>
             <groupId>org.springframework.data</groupId>

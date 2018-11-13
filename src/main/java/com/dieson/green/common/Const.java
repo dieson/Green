@@ -19,6 +19,14 @@ public class Const {
 	 */
 	public static final String TOKEN = "csrftoken";
 
+	/**
+	 * 请求类型
+	 */
+	public static final String POST = "POST";
+	public static final String GET = "GET";
+	public static final String PUT = "PUT";
+	public static final String DELETE = "DELETE";
+
 	public interface Role {
 		int ROLE_CUSTOMER = 0; // 普通用户
 		int ROLE_ADMIN = 1; // 管理员用户

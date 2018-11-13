@@ -20,39 +20,39 @@ public interface ITestEnvironmentService {
 	 * 
 	 * @throws Exception
 	 */
-	ServerResponse<List<TestEnvironmentCustom>> getTestEnvironment() throws Exception;
+	List<TestEnvironmentCustom> getTestEnvironment() throws Exception;
 
 	/**
 	 * 创建环境信息
 	 * 
 	 * @throws Exception
 	 */
-	ServerResponse<String> createTestEnvironment(TestEnvironment environment) throws Exception;
+	int createTestEnvironment(TestEnvironment environment) throws Exception;
 
 	/**
 	 * 检验环境是否存在
 	 * 
 	 * @throws Exception
 	 */
-	ServerResponse<String> checkTestEnvironment(String url) throws Exception;
+	int checkTestEnvironment(String url) throws Exception;
 
 	/**
 	 * 更新环境信息
 	 */
-	ServerResponse<String> updateTestEnvironment(TestEnvironment environment);
+	int updateTestEnvironment(TestEnvironment environment);
 
 	/**
 	 * 删除环境信息
 	 */
-	ServerResponse<String> deleteTestEnvironment(Integer id);
+	int deleteTestEnvironment(String name);
 
 	/**
 	 * 获取测试环境信息
 	 */
-	ServerResponse<List<TestEnvironmentCustom>> getTestEnvironmentPage(int totalPage, int limitPage) throws Exception;
+	List<TestEnvironmentCustom> getTestEnvironmentPage(int totalPage, int limitPage) throws Exception;
 
 	/**
 	 * 根据环境名称获取测试环境url
 	 */
-	ServerResponse<String> getTestEnviromentByName(String name) throws Exception;
+	String getTestEnviromentByName(String name) throws Exception;
 }

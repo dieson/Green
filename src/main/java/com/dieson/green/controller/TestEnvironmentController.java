@@ -18,6 +18,8 @@ import com.dieson.green.entiy.TestEnvironmentCustom;
 import com.dieson.green.pojo.TestEnvironment;
 import com.dieson.green.service.ITestEnvironmentService;
 
+import javax.validation.Valid;
+
 /**
  * @ClassName: TestEnvironmentController
  * @Description: 测试环境
@@ -28,63 +30,67 @@ import com.dieson.green.service.ITestEnvironmentService;
 @RequestMapping("/environment/")
 public class TestEnvironmentController {
 
-	@Autowired
-	ITestEnvironmentService iTestEnvironmentService;
+    @Autowired
+    ITestEnvironmentService iTestEnvironmentService;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Page<List<TestEnvironmentCustom>> load1(@RequestBody Page<?> page) throws Exception {
-		
-		ServerResponse<List<TestEnvironmentCustom>> environments = iTestEnvironmentService.getTestEnvironment();
-		return null;
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public Page<List<TestEnvironmentCustom>> load1(@RequestBody Page<?> page) throws Exception {
 
-	}
+//        ServerResponse<List<TestEnvironmentCustom>> environments = iTestEnvironmentService.getTestEnvironment();
+        return null;
 
-	/**
-	 * 打开测试环境管理页面
-	 * 
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "environment_index.do", method = RequestMethod.GET)
-	public ModelAndView load() throws Exception {
+    }
 
-		ServerResponse<List<TestEnvironmentCustom>> list = iTestEnvironmentService.getTestEnvironment();
-		List<TestEnvironmentCustom> environments = list.getData();
+    /**
+     * 打开测试环境管理页面
+     *
+     * @throws Exception
+     */
+    @RequestMapping(value = "environment_index.do", method = RequestMethod.GET)
+    public ModelAndView load() throws Exception {
 
-		ModelAndView mv = new ModelAndView("environment/environmentMain");
-		mv.addObject("environments", environments);
+        List<TestEnvironmentCustom> environments = iTestEnvironmentService.getTestEnvironment();
 
-		return mv;
-	}
+        ModelAndView mv = new ModelAndView("environment/environmentMain");
+        mv.addObject("environments", environments);
 
-	/**
-	 * 创建测试环境
-	 *
-	 * @param projects
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "create.do", method = RequestMethod.POST)
-	@ResponseBody
-	public ServerResponse<String> create(@RequestBody TestEnvironment environment) throws Exception {
+        return mv;
+    }
 
-		return iTestEnvironmentService.createTestEnvironment(environment);
-	}
+    /**
+     * 创建测试环境
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "create.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> create(@RequestBody TestEnvironment environment) throws Exception {
 
-	/**
-	 * 更新项目名称
-	 */
-	@RequestMapping(value = "update.do", method = RequestMethod.POST)
-	public ServerResponse<String> update(TestEnvironment environment) {
+//        return iTestEnvironmentService.createTestEnvironment(environment);
+        return null;
+    }
 
-		return iTestEnvironmentService.updateTestEnvironment(environment);
-	}
+    /**
+     * 更新项目名称
+     */
+    @RequestMapping(value = "update.do", method = RequestMethod.POST)
+    public ServerResponse<String> update(TestEnvironment environment) {
 
-	/**
-	 * 删除项目
-	 */
-	@RequestMapping(value = "deleteEnvironment.do", method = RequestMethod.POST)
-	public ServerResponse<String> deleteProject(@Param("environment_id") Integer environmentId) {
+//        return iTestEnvironmentService.updateTestEnvironment(environment);
+        return null;
+    }
 
-		return iTestEnvironmentService.deleteTestEnvironment(environmentId);
-	}
+    /**
+     * 删除环境
+     */
+    @RequestMapping(value = "deleteEnvironment.do", method = RequestMethod.POST)
+    public @ResponseBody ServerResponse<String> deleteEnvironment(@RequestBody String name) {
+
+        if (iTestEnvironmentService.deleteTestEnvironment(name) > 0) {
+            return ServerResponse.createBySuccessMessage("删除成功！");
+        }
+        return ServerResponse.createByErrorMesssage("删除失败！");
+    }
+
 }

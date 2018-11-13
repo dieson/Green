@@ -45,7 +45,7 @@ public class UserController {
 	@ResponseBody
 	public ModelAndView logout(HttpSession session) {
 
-//		Integer userID = (Integer) request.getAttribute(Const.CURRENT_USER_ID);
+//		Integer userID = (Integer) runTest.getAttribute(Const.CURRENT_USER_ID);
 //		iTokenManager.deleteToken(userID);
 		
 		session.removeAttribute(Const.CURRENT_USER);
